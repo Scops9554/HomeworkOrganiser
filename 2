@@ -1,0 +1,41 @@
+local Window = {}
+
+function Window:new()
+  local new_window = setmetatable({}, self)
+  self.__index = self
+
+  local title = "Homework Organiser"
+  new_window.title = title
+
+  new_window.height = 270
+  new_window.width = 400
+  new_window.x = 20
+  new_window.y = 45
+  new_window.borderless = true
+
+  new_window.following_cursor = false
+  new_window.follow_disp = { 0, 0 }
+
+  love.window.setTitle(title)
+  love.window.setMode(420, 270, { ["borderless"] = true })
+  love.window.setPosition(20, 45)
+  love.graphics.setDefaultFilter("nearest", "nearest")
+
+  return new_window
+end
+
+function Window:is_following_cursor(x, y)
+  self.following_cursor = (self.x <= x and x <= self.width + self.x
+                            and self.y <= y and y <= self.height + self.y)
+  if self.following_cursor then
+    self.follow_disp = { x - self.x, y - self.y }
+  end
+end
+
+function Window:move(x, y)
+  self.x = x - self.follow_disp[1]
+  self.y = y - self.follow_disp[2]
+  love.window.setMode(self.width, self.height, { ["borderless"] = self.borderless })
+end
+
+return Window
