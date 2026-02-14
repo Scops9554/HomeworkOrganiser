@@ -4,6 +4,7 @@ local Window = require "classes.window"
 function love.load()
   window = Window:new()
   paper = love.graphics.newImage("sprites/FM.png")
+  task = Task:new("FM", "12th", "feb", "test task")
 end
 
 function love.mousepressed(x, y, button)
